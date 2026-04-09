@@ -1,43 +1,87 @@
-# React1
+# 202430113 안지혜
 
-## 2026-03-11 (2주차)
-### Git
 
-#### 기본 명령어
+## 2026-04-08 (6주차)
+### 조건부 렌더링
 
-- `git init` : 새로운 저장소 생성
-- `git add .` : 변경된 파일 전체 추가
-- `git commit -m "메시지"` : 변경 내용 저장
-- `git remote add origin URL` : 원격 저장소 연결
--> Git 흐름
+#### 삼항 연산자 (? :)
+- 조건에 따라 두 가지 결과 중 하나를 선택
+```js
+    function Item({ name, isPacked }) {
+    return (
+        <li>
+            {isPacked ? `${name} ✅` : name}
+        </li>
+    );
+}
+```
+#### 논리 연산자 AND(&&)
+- 조건이 true일 때만 JSX를 렌더링
+```js
+    function Item({ name, isPacked }) {
+        return (
+            <li>
+                {name} {isPacked && "✅"}
+            </li>
+        );
+}
+```
 
-#### 심화 학습
+- JSX 내부에서는 if문을 사용할 수 없음
+- 대신 && 또는 ? :를 사용해야 함
+- 단순 표시 → &&
+- 조건에 따라 내용이 달라짐 → ? :
+---
 
-- Pull Request(PR) 사용법
-- 충돌(Conflict) 해결
-- Git 기록(히스토리) 관리
+## 2026-04-01 (5주차)
+### JSX 개념 정리
+#### JSX 마크업 작성
 
-#### cf.
+- 태그(Tag): HTML과 같은 마크업 요소를 표기하기 위한 개별 기호 ex) <div>, <li> etc...
+- 엘리먼트(Element): DOM의 구성 단위로 "여는 태그 + 내용 + 닫는 태그" 전체를 의미
+    - DOM 노드라고도 불림 ex) <p>...</p>
+- 어트리뷰트(Attribute): 태그의 행동 제어, 엘리먼트에 추가적인 정보를 제공하기 위한 속성
+```js
+    // 컴포넌트에서 함수 호출 방법
+    export default function UseJsx() {
+    const name = "React"
 
-- `git reset --soft HEAD~1` : 최근 커밋 취소 (내용 유지)
-- `git revert` : 이전 상태로 되돌리기
-- `git reflog` : 작업 기록 확인
-&rarr; 복구 명령언
+    function formatDate(date) {
+        return new Intl.DateTimeFormat (
+            "en-US",
+            { weekday: "long"}
+        ).format(date);
+    }
+    return(
+        <>
+            <h1>Hello {name}</h1>
+            <p>Today is {formatDate(new Date())}</p>
+        </>
+    );
+}
+```
 
-#### .gitignore
+---
 
-&rarr; Git에서 관리하지 않을 파일이나 폴더를 지정하는 파일
+### Props
+#### Props의 데이터 전달
 
-예시:
-- `node_modules/`
-- `.env`
-- `dist/`
-&rarr; 불필요한 파일이 업로드되는 것을 방지
+- 부모 컴포넌트와 자식 컴포넌트의 차이
+    - 부모 컴포넌트:
+        - 자식 컴포넌트를 자신의 구조 안에 포함(Import 및 호출)하고, 데이터 전달(props)
+    - 자식 컴포넌트:
+        - 부모 컴포넌트로부터 전달받은 props를 통해 구체적인 UI를 만들어서 부모 컴포넌트에 다시 반환
+        - 독립적으로 재사용 가능
+
+- Props 특징
+    - 단방향 통신: 부모 &rarr; 자식
+    - 읽기 전용: 자식 컴포넌트는 props 수정 불가
+    - 컴포넌트 재사용성 증가
+    - 객체 형태로 전달
 
 ---
 
 ## 2026-03-25 (4주차)
-
 ### Vite에서 SWC가 사라진 이유
 
 - SWC (Speedy Web Compiler)
@@ -170,3 +214,39 @@ ex) `<img className="icon" />`
     - JSX를 사용해 UI를 직관적으로 작성
     - Named Export가 협업에 유리
     - Vite는 점점 더 빠른 Rust 기반 도구(Oxc 등)로 발전 중
+
+---
+
+## 2026-03-11 (2주차)
+### Git
+
+#### 기본 명령어
+
+- `git init` : 새로운 저장소 생성
+- `git add .` : 변경된 파일 전체 추가
+- `git commit -m "메시지"` : 변경 내용 저장
+- `git remote add origin URL` : 원격 저장소 연결
+-> Git 흐름
+
+#### 심화 학습
+
+- Pull Request(PR) 사용법
+- 충돌(Conflict) 해결
+- Git 기록(히스토리) 관리
+
+#### cf.
+
+- `git reset --soft HEAD~1` : 최근 커밋 취소 (내용 유지)
+- `git revert` : 이전 상태로 되돌리기
+- `git reflog` : 작업 기록 확인
+&rarr; 복구 명령언
+
+#### .gitignore
+
+&rarr; Git에서 관리하지 않을 파일이나 폴더를 지정하는 파일
+
+예시:
+- `node_modules/`
+- `.env`
+- `dist/`
+&rarr; 불필요한 파일이 업로드되는 것을 방지
