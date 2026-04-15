@@ -1,5 +1,93 @@
 # 202430113 안지혜
 
+## 2026-04-15 (7주차)
+#### 리스트 렌더링
+```js
+    const heroes = [
+        {
+            id: 0,
+            casting: "스파이더맨",
+            name: "피터 파커",
+        },
+        {
+            id: 1,
+            casting: "아이언맨",
+            name: "토니 스타크",
+        },
+    ]
+```
+- 배열을 객체 형태로 구조화하면 데이터 관리가 더 쉬어짐
+
+```js
+    const filterTests = heroes.filter(
+        (hero) => hero.name === "클라크 켄트"
+    );
+```
+- filter() 활용
+    - 특정 조건에 맞는 데이터만 추출
+
+```js
+    const listHeroes = filterTests.map((hero) => (
+        <li>
+            <p>
+            {hero.name}의 배역은 {hero.casting} 입니다.
+            </p>
+        </li>   
+    ));
+```
+- map()으로 렌더링
+
+#### 화살표 함수 주의점
+- 한 줄 표현식 &rarr; return 생략 가능
+```js
+    const list = arr.map((item) => <li>{item}</li>);
+```
+- {} 사용시 &rarr; 반드시 return 필요
+```js
+    const list = arr.map((item) => {
+        return <li>{item}</li>;
+    });
+```
+
+#### key prop
+- 리스트 렌더링 시 각 요소를 구분하기 위한 값
+- React가 변경사항을 효율적으로 추적하기 위해 사용
+```js
+    <li key={hero.id}>
+```
+- 특징
+    - 고유한 값 사용 (id 추천)
+    - 배열 내부 데이터에 포함되어 있어야 함
+    - index는 가급적 비추천 (순서 변경 시 문제 발생)
+
+
+#### Fragment와 key
+- 여러 요소를 반환할 때는 하나로 묶어야 함 
+```js
+    <>
+        <h1></h1>
+    </>
+```
+- Fragment는 key 전달 불가능
+- key 필요하면 <div> 또는 <Fragment> 사용
+
+#### 순수 함수
+- 같은 입력 &rarr; 항상 같은 결과
+- 외부 상태 변경 X (side effect 없음)
+
+#### UI를 트리 구조로 이해하기
+- React는 UI를 트리 구조로 관리
+- 구조 흐름
+    - 컴포넌트 &rarr; 하위 컴포넌트 &rarr; DOM
+- 특징
+    - 컴포넌트 간 관계 파악 쉬움
+    - 상태 관리 및 성능 최적화에 유리
+- cf
+    - HTML &rarr; DOM 트리
+    - CSS &rarr; CSSOM 트리
+    - React &rarr; Render 트리
+
+---
 
 ## 2026-04-08 (6주차)
 ### 조건부 렌더링
@@ -31,6 +119,38 @@
 - 대신 && 또는 ? :를 사용해야 함
 - 단순 표시 → &&
 - 조건에 따라 내용이 달라짐 → ? :
+
+#### 리스트 렌더링
+- 컴포넌트에서 동일하나 구조의 데이터를 여러 개 출력해야 하는 경우 사용
+- 댓글 목록, 유저 리스트, 이미지 갤러리 같은 곳에서 자주 쓰임
+- 핵심 개념
+    - 데이터를 먼저 배열 형태로 관리
+    - map()으로 JSX로 변환해서 렌더링
+```js
+    const hero = {
+        "스파이더맨: 피터 파커",
+        "아이언맨: 토니 스파크",
+        "배트맨: 브루스 웨인",
+        "슈퍼맨: 클라크 켄트",
+        "헐크: 로버트 브루스 배너",
+    };
+
+    const listHeroes = heroes.map((hero) => <li>{hero}</li>);
+
+    return <ul>{listHeroes}<ul/>;
+```
+- 데이터 개수만큼 자동으로 UI 생성
+- 유지보수 편함
+- filter() 활용
+    - 특정 조건에 맞는 데이터만 걸러서 렌더링 가능
+
+```js
+    const filtered = heroes.filter((hero) => hero.includes("맨"));
+```
+- 정리
+    - 반복 출력 &rarr; map()
+    - 조건 필터링 &rarr; filter()
+    - 둘이 같이 쓰는 경우 많음
 ---
 
 ## 2026-04-01 (5주차)
