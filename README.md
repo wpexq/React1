@@ -1,5 +1,89 @@
 # 202430113 안지혜
 
+## 2026-05-13 (11주차)
+### 이벤트
+#### 이벤트 전파와 버블링
+- React의 이벤트는 자식 요소에서 발생하여 부모 요소로 전달되는 **버블링**방식을 따른다
+    - 현상: 자식 컴포넌트의 버튼을 클릭했을 때 부모의 클릭 핸들러까지 연쇄적으로 호줄되는 현상
+    - 해결책(e.stopPropagation()): 이벤트가 상위 트리에 닿지 않도록 차단한다
+```js
+    function CustomButton({ onClick, children }) {
+  return (
+    <button onClick={(e) => {
+      e.stopPropagation(); // 부모로의 이벤트 전파 중단
+      onClick();
+    }}>
+      {children}
+    </button>
+  );
+}
+```
+
+#### 이벤트 객체 제어: Stop vs Prevent
+- 이벤트 객체(e)를 통해 전파를 막거나 브라우저의 기본 동작을 제어할 수 있다
+- e.stopPropagation(): 이벤트가 상위 요소로 퍼지는 것을 방지
+- e.preventDefault(): 브라우저 고유의 기본 동작을 취소
+
+#### 컴포넌트의 기억 장소: State
+- 이벤트 핸들러는 단순한 동작을 수행할 수도 있지만, 데이터를 수정하고 화면을 다시 그리게(re-render)만드는 역할을 한다 => 이때 필요한 것이 State(상태)이다
+- 컴포넌트가 시간이 지나도, 혹은 상호작용 후에도 잃어버리지 않아야 할 '자체적인 메모리이다
+- 필요성: 
+    - 입력 폼의 텍스트 필드 업데이트
+    - 이미지 캐러셀의 현재 인덱스 기억
+    - 장바구니에 담긴 상품 목록 유지
+- 특징: 일반 변수와 달리 State가 변경되면 React는 해당 컴포넌트를 다시 렌더링하여 최신 정보를 화면에 반영한다
+---
+
+## 2026-05-05 (10주차)
+### Props의 내부 동작 원리
+- React에서는 사용자 정의 컴포넌트뿐만 아니라 표준 HTML 태그도 컴포넌트처럼 동작하며 Props를 전달받는다
+```js
+// JSX
+    <button onClick={handleClick}>Click</button>
+
+    // React 내부 객체 구조 (추상화)
+    {
+    type: "button",
+    props: {
+        onClick: handleClick,
+        children: "Click"
+  }
+}
+```
+- 객체 모델링: JSX는 내부적으로 React.createElemnet를 호출하여 아래와 같은 객체 구조를 생성한다
+- DOM 접근: 직접적인 DOM 조작 (getElementById 등) 보다는 React의 선언적 방식과 Props를 통한 데이터 전달을 우선시해야 한다
+
+### Props의 내부 동작 원리
+- React 이벤트 시스템을 사용할 때 가장 중요한 규칙은 함수를 '호출'하지 않고 '전달'하는 것
+- ✅ 함수 전달 (Reference): onClick={handleClick}
+    - 함수의 이름(참조값)만 전달합니다. 사용자가 실제 클릭했을 때 React가 함수를 실행
+- ❌ 함수 호출 (Invocation): onClick={handleClick()}
+    - 렌더링 시점에 즉시 실행되어 의도치 않은 동작을 유발한다
+- 인라인 핸들러 주의사항:
+    - 단순한 로직이라도 onClick={() => alert('...')}와 같이 익명 함수로 감싸서 전달해야 렌더링 시 즉시 실행되는 것을 방지할 수 있다
+
+---
+
+## 2026-04-29 (9주차)
+#### UI를 바라보는 관점: Tree 구조
+- React 앱의 효율적인 설계와 데이터 흐름 파악을 위해 UI를 트리 구조로 모델링한다
+
+- **Render 트리**:
+    - 컴포넌트 간의 부모-자식 관계를 나타내며, 앱의 **Root 컴포넌트**에서 시작한다
+    - DOM 트리와 달리 오직 React 컴포넌트로만 구성되어 데이터 흐름을 추적하기에 용이
+- **모듈 의존성 트리**:
+    - 파일 간의 import/export 관계를 모델링한다
+    - 모듈의 종속성을 파악하여 번들 사이즈 최적화 및 코드 구조 관리에 활용된다
+
+#### React 스타일링 전략
+- Vanilla CSS : 표준 CSS 파일 임포트
+- Inline Style : style={{ camelCase: 'value' }}
+- CSS-in-JS : CSS-in-JS	라이브러리(Styled-components 등) 사용
+- Tailwind CSS : 유틸리티 클래스 조합
+- CSS Modules : [name].module.css 활용
+
+---
+
 ## 2026-04-15 (7주차)
 #### 리스트 렌더링
 ```js
